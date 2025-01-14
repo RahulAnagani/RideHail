@@ -77,3 +77,75 @@
   "token": "ItIsAJsonWebToken"
 }
 ```
+
+## User Login
+
+**Endpoint:** `/user/login`
+
+**Method:** `POST`
+
+**Description:** Logs in an existing user.
+
+**Request Body:**
+```json
+{
+  "email": "string",
+  "password": "string"
+}
+```
+
+**Validation:**
+- `email`: Must be a valid email address.
+- `password`: Must be at least 4 characters long.
+
+**Responses:**
+
+- **201 Created**
+  ```json
+  {
+    "status": true,
+    "token": "string"
+  }
+  ```
+  - Returns a JWT token for the logged-in user.
+
+- **400 Bad Request**
+  ```json
+  {
+    "status": false,
+    "message": "Password is not Correct"
+  }
+  ```
+  - Returns if the password is incorrect.
+
+- **401 Unauthorized**
+  ```json
+  {
+    "status": false,
+    "message": "User is not found"
+  }
+  ```
+  - Returns if the user is not found.
+
+**Example Request:**
+```json
+{
+  "method": "POST",
+  "url": "http://localhost:3000/user/login",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "email": "john.doe@example.com",
+    "password": "password123"
+  }
+}
+```
+
+**Example Response:**
+```json
+{
+  "status": true,
+  "token": "ItIsAJsonWebToken"
+}
+```
