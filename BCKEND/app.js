@@ -2,6 +2,12 @@ const express=require("express");
 const app=express();
 const dotenv=require("dotenv").config();
 const connect=require("./config/connect");
+const userRoutes=require("./routes/user.routes");
+const cors=require("cors")
+app.use(express.json());
+app.use(cors());
+app.use(express.urlencoded({extended:true}))
+app.use("/user",userRoutes);
 app.get("/",(req,res)=>{
     res.send("HI");
 })
