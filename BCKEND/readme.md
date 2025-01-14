@@ -53,17 +53,22 @@
   - Returns validation errors or if the user already exists.
 
 **Example Request:**
-```bash
-curl -X POST http://localhost:3000/user/register \
--H "Content-Type: application/json" \
--d '{
-  "fullName": {
-    "firstName": "John",
-    "lastName": "Doe"
+```json
+{
+  "method": "POST",
+  "url": "http://localhost:3000/user/register",
+  "headers": {
+    "Content-Type": "application/json"
   },
-  "email": "john.doe@example.com",
-  "password": "password123"
-}'
+  "body": {
+    "fullName": {
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "password": "password123"
+  }
+}
 ```
 
 **Example Response:**
