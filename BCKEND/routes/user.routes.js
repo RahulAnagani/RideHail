@@ -2,6 +2,7 @@ const express=require("express");
 const router=express.Router();
 const {body}=require("express-validator")
 const userController=require("../controllers/userController")
+const validator=require("../middlewares/AAth");
 router.post ("/register",[
     body("email").trim().isEmail(),
     body('password').isLength({min:4}),
@@ -15,4 +16,7 @@ router.post("/login",[
 ],
     userController.loginUser
 )
+router.post("/logout",userController.logoutUser);
+router.get("/profile",validator.validateUser,userController.getUserProfile);
+
 module.exports=router;

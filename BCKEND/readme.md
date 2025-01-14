@@ -149,3 +149,118 @@
   "token": "ItIsAJsonWebToken"
 }
 ```
+
+## User Logout
+
+**Endpoint:** `/user/logout`
+
+**Method:** `POST`
+
+**Description:** Logs out the current user.
+
+**Responses:**
+
+- **200 OK**
+  ```json
+  {
+    "status": true,
+    "message": "User has been successfully logged out"
+  }
+  ```
+  - Returns if the user is successfully logged out.
+
+- **400 Bad Request**
+  ```json
+  {
+    "status": false,
+    "message": "No token is found"
+  }
+  ```
+  - Returns if no token is found.
+
+**Example Request:**
+```json
+{
+  "method": "POST",
+  "url": "http://localhost:3000/user/logout",
+  "headers": {
+    "Content-Type": "application/json"
+  }
+}
+```
+
+**Example Response:**
+```json
+{
+  "status": true,
+  "message": "User has been successfully logged out"
+}
+```
+
+## Get User Profile
+
+**Endpoint:** `/user/profile`
+
+**Method:** `GET`
+
+**Description:** Retrieves the profile of the logged-in user.
+
+**Responses:**
+
+- **200 OK**
+  ```json
+  {
+    "user": {
+      "fullName": {
+        "firstName": "string",
+        "lastName": "string"
+      },
+      "email": "string",
+      "socketId": "string"
+    }
+  }
+  ```
+  - Returns the user's profile information.
+
+- **400 Bad Request**
+  ```json
+  {
+    "status": false,
+    "message": "No token found in the headers and the cookies"
+  }
+  ```
+  - Returns if no token is found.
+
+- **401 Unauthorized**
+  ```json
+  {
+    "status": false,
+    "message": "Token ain't eligible for verifying"
+  }
+  ```
+  - Returns if the token is not valid.
+
+**Example Request:**
+```json
+{
+  "method": "GET",
+  "url": "http://localhost:3000/user/profile",
+  "headers": {
+    "Authorization": "Bearer ItIsAJsonWebToken"
+  }
+}
+```
+
+**Example Response:**
+```json
+{
+  "user": {
+    "fullName": {
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "socketId": "socket123"
+  }
+}
+```

@@ -1,7 +1,7 @@
 const userServices=require("../services/user.services");
 const userModel=require("../models/user.model");
 const {validationResult}=require("express-validator");
-const { use } = require("../app");
+const logout=require("../models/logout.model");
 module.exports.registerUser=async(req,res)=>{
     if(!validationResult(req).isEmpty()){
         res.status(400).json({status:false,message:"Feilds ain't according to the rules",errors:validationResult(req).array()});
@@ -36,11 +36,25 @@ module.exports.loginUser=async(req,res)=>{
             }
             else{
                 if(await user.verifyPassword(password)){
-                    res.status(201).json({status:true,token:user.generateToken()});
+                    const token=user.generateToken();
+                    res.cookie("token",token)
+                    res.status(201).json({status:true,token:token});
                 }
                 else{
                     res.status(400).json({status:false,message:"Password is not Correct"});
                 }
             }
     }
+}
+module.exports.getUserProfile=async(req,res)=>{
+    res.json({user:req.user});
+}
+module.exports.logoutUser=async(req,res)=>{
+    res.clearCookie("token");
+    const token=req.cookies.token||req.headers.authorization?.split(" ")[1];
+    if(!token){
+       return res.status(400).json({status:false,message:"No token is found"} );
+    }
+    await logout.create({token});
+    res.status(200).json({status:true,message:"User has been successfully logged 0ut"});
 }
