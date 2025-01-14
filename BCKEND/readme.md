@@ -74,6 +74,6 @@
 **Example Response:**
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGY4Y2Y4YzYzYjY0NzAwMTU3YzYzYzgiLCJpYXQiOjE2MjY2MjY2NjZ9.4f5d6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f3g4h5i"
+  "token": "ItIsAJsonWebToken"
 }
 ```
