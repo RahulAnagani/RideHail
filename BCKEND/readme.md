@@ -264,3 +264,109 @@
   }
 }
 ```
+
+
+
+## Captain Registration
+
+**Endpoint:** `/captain/register`
+
+**Method:** `POST`
+
+**Description:** Registers a new captain.
+
+**Request Body:**
+```json
+{
+  "fullName": {
+    "firstName": "string",
+    "lastName": "string"
+  },
+  "email": "string",
+  "password": "string",
+  "vehicle": {
+    "color": "string",
+    "plate": "string",
+    "capacity": 1,
+    "type": "string"
+  }
+}
+```
+
+**Validation:**
+- `fullName.firstName`: Must be at least 3 characters long.
+- `fullName.lastName`: Optional, but if provided, must be at least 3 characters long.
+- `email`: Must be a valid email address.
+- `password`: Must be at least 4 characters long.
+- `vehicle.color`: Must be at least 3 characters long.
+- `vehicle.plate`: Must be at least 5 characters long.
+- `vehicle.capacity`: Must be an integer greater than or equal to 1.
+- `vehicle.type`: Must be one of `['Car', 'Bike', 'Auto']`.
+
+**Responses:**
+
+- **201 Created**
+  ```json
+  {
+    "status": true,
+    "token": "string"
+  }
+  ```
+  - Returns a JWT token for the newly registered captain.
+
+- **400 Bad Request**
+  ```json
+  {
+    "status": false,
+    "message": "string",
+    "errors": [
+      {
+        "msg": "string",
+        "param": "string",
+        "location": "string"
+      }
+    ]
+  }
+  ```
+  - Returns validation errors or if the captain already exists.
+
+- **500 Internal Server Error**
+  ```json
+  {
+    "status": false
+  }
+  ```
+  - Returns if there is an internal server error.
+
+**Example Request:**
+```json
+{
+  "method": "POST",
+  "url": "http://localhost:3000/captain/register",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "fullName": {
+      "firstName": "Jane",
+      "lastName": "Doe"
+    },
+    "email": "jane.doe@example.com",
+    "password": "password123",
+    "vehicle": {
+      "color": "Red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "type": "Car"
+    }
+  }
+}
+```
+
+**Example Response:**
+```json
+{
+  "status": true,
+  "token": "ItIsAJsonWebToken"
+}
+```
