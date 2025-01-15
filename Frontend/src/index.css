@@ -1,0 +1,76 @@
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+
+    .tabs {
+        display: flex;
+        position: relative;
+        background-color: rgb(238 238 238 / var(--tw-bg-opacity, 1));
+        box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15), 0 6px 12px 0 rgba(24, 94, 224, 0.15);
+        padding: 0.75rem;
+        border-radius: 10px;
+    }
+    
+    .tabs * {
+        z-index: 2;
+    }
+    
+    .container input[type="radio"] {
+        display: none;
+        width: 100%;
+    }
+    
+    .tab {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+        width: 50px;
+        font-size: .8rem;
+        color: black;
+        font-weight: 500;
+        border-radius: 0px;
+        cursor: pointer;
+        transition: color 0.15s ease-in;
+    }
+    .container input[type="radio"]:checked + label {
+        color: #185ee0;
+    }
+    
+    .container input[type="radio"]:checked + label > .notification {
+        background-color: #0059ff;
+        color: #fff;
+        margin: 0px;
+    }
+    
+    .container input[id="bike"]:checked ~ .glider {
+        transform: translateX(0);
+    }
+    
+    .container input[id="auto"]:checked ~ .glider {
+        transform: translateX(100%);
+    }
+    
+    .container input[id="car"]:checked ~ .glider {
+        transform: translateX(200%);
+    }
+    
+    .glider {
+        position: absolute;
+        display: flex;
+        height: 30px;
+        width: 50px;
+        background-color: #323335;
+        z-index: 1;
+        border-radius: 99px;
+        transition: 0.25s ease-out;
+    }
+    
+    @media (max-width: 700px) {
+    
+        .tabs {
+
+        }
+    }
+    
+    

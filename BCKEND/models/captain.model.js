@@ -22,7 +22,8 @@ const CapSchema=mongoose.Schema({
     password:{
         type:String,
         required:true,
-        minlength:4
+        minlength:4,
+        select:false
     },
     socketId:{
         type:String,
@@ -64,11 +65,11 @@ const CapSchema=mongoose.Schema({
     }
 
 });
-CapSchema.methods.generateToken=()=>{
+CapSchema.methods.generateToken=function(){
     return jwt.sign({_id:this._id},process.env.JWT_KEY,{expiresIn:"24h"});
 }
 CapSchema.methods.verifyPass=async function(password) {
-    return await bcrypt.compare(this.password,password);
+    return await bcrypt.compare(password,this.password);
 }
 CapSchema.statics.hashPass=async(password)=>{
     return await bcrypt.hash(password,10);
