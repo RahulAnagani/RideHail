@@ -17,6 +17,7 @@ module.exports.register=async(req,res)=>{
         else{
             const hashIt=await captainModel.hashPass(password);
             const captain=await captainServices.createCaptain({fullName,email,password:hashIt,vehicle});
+            console.log(captain)
             if(captain.status){
                 const token=captain.captain.generateToken();
                 res.cookie("token",token);
@@ -29,6 +30,7 @@ module.exports.register=async(req,res)=>{
     } 
 }
 module.exports.login=async(req,res)=>{
+    console.log("hi")
     const errors=validationResult(req);
     if(!errors.isEmpty()){
         res.status(400).json({status:false,message:"Fields ain't upto the requirements",errors:errors.array()});
@@ -41,7 +43,7 @@ module.exports.login=async(req,res)=>{
                 if(await captain.verifyPass(password)){
                     const token=captain.generateToken();
                     res.cookie("token",token);
-                    res.status(200).json({status:true,token:token});
+                    res.status(200).json({status:true,token:token,captain:{fullName:captain.fullName,email:captain.email,vehicle:captain.vehicle}});
                 }
                 else{
                     res.status(400).json({status:false,message:"Wrong password"})
@@ -73,5 +75,5 @@ module.exports.logout=async(req,res)=>{
     }
 }
 module.exports.getProfile=(req,res)=>{
-    res.status(200).json(req.captain);
+    res.status(201).json({captain:req.captain});
 }

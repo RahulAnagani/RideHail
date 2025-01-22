@@ -4,22 +4,22 @@ const {validationResult}=require("express-validator");
 const logout=require("../models/logout.model");
 module.exports.registerUser=async(req,res)=>{
     if(!validationResult(req).isEmpty()){
-        res.status(400).json({status:false,message:"Feilds ain't according to the rules",errors:validationResult(req).array()});
+       return res.status(400).json({status:false,message:"Feilds ain't according to the rules",errors:validationResult(req).array()});
     }
     else{
         const {fullName,password,email}=req.body;
-        const exists=userModel.findOne({email});
+        const exists=await userModel.findOne({email});
         if(exists){
-            res.status(400).json({status:false,goal:true,message:"User already exists"});
+            return res.status(400).json({status:false,goal:true,message:"User already exists"});
         }
         const hashPass=await userModel.hashPass(password);
         const resp=await userServices.registerUser({fullName,hashPass,email});
         if(resp.status){
             const token=resp.user.generateToken();
-            res.status(201).json({token});
+            return res.status(201).json({token});
         }
         else{
-            res.status(400).json(resp);
+            return res.status(400).json(resp);
         }
     }
 }
@@ -38,7 +38,7 @@ module.exports.loginUser=async(req,res)=>{
                 if(await user.verifyPassword(password)){
                     const token=user.generateToken();
                     res.cookie("token",token)
-                    res.status(201).json({status:true,token:token});
+                    res.status(201).json({status:true,token:token,user:{fullName:user.fullName,email:user.email}});
                 }
                 else{
                     res.status(400).json({status:false,message:"Password is not Correct"});
@@ -47,7 +47,7 @@ module.exports.loginUser=async(req,res)=>{
     }
 }
 module.exports.getUserProfile=async(req,res)=>{
-    res.json({user:req.user});
+    res.status(201).json({user:req.user});
 }
 module.exports.logoutUser=async(req,res)=>{
     res.clearCookie("token");

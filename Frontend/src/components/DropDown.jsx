@@ -11,37 +11,37 @@ const DropDown = ({setTab,tab}) => {
       <div className="tabs">
         <input
           type="radio"
-          id="bike"
+          id="Bike"
           value="Hello"
           name="tabs"
-          checked={tab === "bike"}
+          checked={tab === "Bike"}
           onChange={handleChange}
         />
-        <label className="tab" htmlFor="bike">
+        <label className="tab" htmlFor="Bike">
           Bike
         </label>
 
         <input
           type="radio"
-          id="auto"
+          id="Auto"
           value="UI"
           name="tabs"
-          checked={tab === "auto"}
+          checked={tab === "Auto"}
           onChange={handleChange}
         />
-        <label className="tab" htmlFor="auto">
+        <label className="tab" htmlFor="Auto">
           Auto
         </label>
 
         <input
           type="radio"
-          id="car"
+          id="Car"
           value="World"
           name="tabs"
-          checked={tab === "car"}
+          checked={tab === "Car"}
           onChange={handleChange}
         />
-        <label className="tab" htmlFor="car">
+        <label className="tab" htmlFor="Car">
           Car
         </label>
 

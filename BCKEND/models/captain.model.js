@@ -10,7 +10,6 @@ const CapSchema=mongoose.Schema({
         },
         lastName:{
             type:String,
-            minlength:3
         }
     },
     email:{

@@ -2,6 +2,10 @@
     @tailwind components;
     @tailwind utilities;
 
+    * {
+      user-select: none;
+    }
+
     .tabs {
         display: flex;
         position: relative;
@@ -56,8 +60,9 @@
     }
     
     .glider {
+        display: none;
         position: absolute;
-        display: flex;
+        /* display: flex; */
         height: 30px;
         width: 50px;
         background-color: #323335;
@@ -66,11 +71,334 @@
         transition: 0.25s ease-out;
     }
     
-    @media (max-width: 700px) {
-    
-        .tabs {
+    .loader {
+        --ANIMATION-DELAY-MULTIPLIER: 70ms;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        position: fixed;
+        /* display: none; */
+        z-index: 9999;
+        background-color: rgba(0, 0, 0, 0.5);
+        width: 100vw;
+        height: 100vh;
+      }
 
+      .loader1 {
+        width: 44.8px;
+        height: 44.8px;
+        color: #f39e00;
+        position: relative;
+        background: radial-gradient(11.2px,currentColor 94%,#f7131300);
+      }
+      
+      .loader1:before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: radial-gradient(10.08px at bottom right,#be000000 94%,currentColor) top    left,
+                radial-gradient(10.08px at bottom left ,#0000 94%,currentColor) top    right,
+                radial-gradient(10.08px at top    right,#0000 94%,currentColor) bottom left,
+                radial-gradient(10.08px at top    left ,#0000 94%,currentColor) bottom right;
+        background-size: 22.4px 22.4px;
+        background-repeat: no-repeat;
+        animation: loader1 1.5s infinite cubic-bezier(0.3,1,0,1);
+      }
+      
+      @keyframes loader1 {
+        33% {
+          inset: -11.2px;
+          transform: rotate(0deg);
         }
-    }
-    
-    
+      
+        66% {
+          inset: -11.2px;
+          transform: rotate(90deg);
+        }
+      
+        100% {
+          inset: 0;
+          transform: rotate(90deg);
+        }
+      }
+
+
+      /* From cssbuttons.io by @harmankanda.github.io/New */
+
+.pl {
+  width: 5em;
+  height: 5em;
+ }
+ 
+ .pl circle {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+ }
+ 
+ .pl__ring1 {
+  animation: ring1 4s 0s ease-in-out infinite;
+ }
+ 
+ .pl__ring2 {
+  animation: ring2 4s 0.04s ease-in-out infinite;
+ }
+ 
+ .pl__ring3 {
+  animation: ring3 4s 0.08s ease-in-out infinite;
+ }
+ 
+ .pl__ring4 {
+  animation: ring4 4s 0.12s ease-in-out infinite;
+ }
+ 
+ .pl__ring5 {
+  animation: ring5 4s 0.16s ease-in-out infinite;
+ }
+ 
+ .pl__ring6 {
+  animation: ring6 4s 0.2s ease-in-out infinite;
+ }
+ 
+ /* Animations */
+ @keyframes ring1 {
+  from {
+   stroke-dashoffset: -376.237129776;
+   transform: rotate(-0.25turn);
+   animation-timing-function: ease-in;
+  }
+ 
+  23% {
+   stroke-dashoffset: -94.247778;
+   transform: rotate(1turn);
+   animation-timing-function: ease-out;
+  }
+ 
+  46%, 50% {
+   stroke-dashoffset: -376.237129776;
+   transform: rotate(2.25turn);
+   animation-timing-function: ease-in;
+  }
+ 
+  73% {
+   stroke-dashoffset: -94.247778;
+   transform: rotate(3.5turn);
+   animation-timing-function: ease-out;
+  }
+ 
+  96%, to {
+   stroke-dashoffset: -376.237129776;
+   transform: rotate(4.75turn);
+  }
+ }
+ 
+ @keyframes ring2 {
+  from {
+   stroke-dashoffset: -329.207488554;
+   transform: rotate(-0.25turn);
+   animation-timing-function: ease-in;
+  }
+ 
+  23% {
+   stroke-dashoffset: -82.46680575;
+   transform: rotate(1turn);
+   animation-timing-function: ease-out;
+  }
+ 
+  46%, 50% {
+   stroke-dashoffset: -329.207488554;
+   transform: rotate(2.25turn);
+   animation-timing-function: ease-in;
+  }
+ 
+  73% {
+   stroke-dashoffset: -82.46680575;
+   transform: rotate(3.5turn);
+   animation-timing-function: ease-out;
+  }
+ 
+  96%, to {
+   stroke-dashoffset: -329.207488554;
+   transform: rotate(4.75turn);
+  }
+ }
+ 
+ @keyframes ring3 {
+  from {
+   stroke-dashoffset: -288.4484661616;
+   transform: rotate(-0.25turn);
+   animation-timing-function: ease-in;
+  }
+ 
+  23% {
+   stroke-dashoffset: -72.2566298;
+   transform: rotate(1turn);
+   animation-timing-function: ease-out;
+  }
+ 
+  46%, 50% {
+   stroke-dashoffset: -288.4484661616;
+   transform: rotate(2.25turn);
+   animation-timing-function: ease-in;
+  }
+ 
+  73% {
+   stroke-dashoffset: -72.2566298;
+   transform: rotate(3.5turn);
+   animation-timing-function: ease-out;
+  }
+ 
+  96%, to {
+   stroke-dashoffset: -288.4484661616;
+   transform: rotate(4.75turn);
+  }
+ }
+ 
+ @keyframes ring4 {
+  from {
+   stroke-dashoffset: -253.9600625988;
+   transform: rotate(-0.25turn);
+   animation-timing-function: ease-in;
+  }
+ 
+  23% {
+   stroke-dashoffset: -63.61725015;
+   transform: rotate(1turn);
+   animation-timing-function: ease-out;
+  }
+ 
+  46%, 50% {
+   stroke-dashoffset: -253.9600625988;
+   transform: rotate(2.25turn);
+   animation-timing-function: ease-in;
+  }
+ 
+  73% {
+   stroke-dashoffset: -63.61725015;
+   transform: rotate(3.5turn);
+   animation-timing-function: ease-out;
+  }
+ 
+  96%, to {
+   stroke-dashoffset: -253.9600625988;
+   transform: rotate(4.75turn);
+  }
+ }
+ 
+ @keyframes ring5 {
+  from {
+   stroke-dashoffset: -225.7422778656;
+   transform: rotate(-0.25turn);
+   animation-timing-function: ease-in;
+  }
+ 
+  23% {
+   stroke-dashoffset: -56.5486668;
+   transform: rotate(1turn);
+   animation-timing-function: ease-out;
+  }
+ 
+  46%, 50% {
+   stroke-dashoffset: -225.7422778656;
+   transform: rotate(2.25turn);
+   animation-timing-function: ease-in;
+  }
+ 
+  73% {
+   stroke-dashoffset: -56.5486668;
+   transform: rotate(3.5turn);
+   animation-timing-function: ease-out;
+  }
+ 
+  96%, to {
+   stroke-dashoffset: -225.7422778656;
+   transform: rotate(4.75turn);
+  }
+ }
+ .lineit {
+  position: absolute; /* Ensure proper positioning */
+  bottom: 0;          /* Anchor to the bottom */
+  left: 0;            /* Start from the left */
+  height: 4px;        /* Define height */
+  background-color: #000000; /* Background color for the animation */
+  animation: loadIt 1s ease-in infinite;
+}
+
+.user-picture {
+  overflow: hidden;
+  object-fit: cover;
+  width: 3.4rem;
+  height: 3.4rem;
+  border: 2px solid gray;
+  border-radius: 999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.user-picture img{
+  width: 100%;
+  fill: currentColor;
+  height: 100%;
+  object-fit:cover;
+}
+@keyframes loadIt {
+  0% {
+    left: 0;
+    width: 0%;
+  }
+  25% {
+    left: 0;
+    width: 100%; /* Expands to full width */
+  }
+  50% {
+    left: 50%; /* Start shrinking while moving to the right */
+    width: 50%;
+  }
+  75% {
+    left: 90%; /* Almost at the right edge */
+    width: 10%;
+  }
+  100% {
+    left: 100%; /* End at the right edge */
+    width: 0%; /* Shrink completely */
+  }
+}
+
+
+ @keyframes ring6 {
+  from {
+   stroke-dashoffset: -203.795111962;
+   transform: rotate(-0.25turn);
+   animation-timing-function: ease-in;
+  }
+ 
+  23% {
+   stroke-dashoffset: -51.05087975;
+   transform: rotate(1turn);
+   animation-timing-function: ease-out;
+  }
+ 
+  46%, 50% {
+   stroke-dashoffset: -203.795111962;
+   transform: rotate(2.25turn);
+   animation-timing-function: ease-in;
+  }
+ 
+  73% {
+   stroke-dashoffset: -51.05087975;
+   transform: rotate(3.5turn);
+   animation-timing-function: ease-out;
+  }
+ 
+  96%, to {
+   stroke-dashoffset: -203.795111962;
+   transform: rotate(4.75turn);
+  }
+ }
+ 

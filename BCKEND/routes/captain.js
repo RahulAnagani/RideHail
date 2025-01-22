@@ -6,7 +6,7 @@ const { validateCaptain } = require("../middlewares/AAth");
 router.post("/register",
     [
         body("fullName.firstName").trim().isLength({min:3}),
-        body("fullName.lastName").optional().trim().isLength({min:3}),
+        // body("fullName.lastName").optional().trim().isLength({min:3}),
         body("email").trim().isEmail(),
         body("password").isLength({min:4}),
         body("vehicle.color").isLength({min:3}),
