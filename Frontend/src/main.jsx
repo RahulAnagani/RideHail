@@ -17,6 +17,8 @@ import CapProtect from './Pages/CapProtect.jsx';
 import CapDashBoard from './Pages/CapDashBoard.jsx';
 import CapSignout from './Pages/CapSignout.jsx';
 import CaptainRiding from './Pages/CaptainRiding.jsx';
+import SocketProvider from './Pages/SocketProvider.jsx';
+import UserRiding from './Pages/UserRiding.jsx';
 
 const router=createBrowserRouter([{
   path:"/",
@@ -47,10 +49,17 @@ const router=createBrowserRouter([{
     },
     {
       path:"/dashboard",
-      element:<AuthProtect>
+      element:<SocketProvider>
+      <AuthProtect>
         <DashBoard></DashBoard>
       </AuthProtect>
+      </SocketProvider>
     },
+    {
+      path:"/user-riding",
+      element:<UserRiding></UserRiding>
+    }
+    ,
     {
       path:"/logout",
       element:<UserLogout></UserLogout>
@@ -62,9 +71,12 @@ const router=createBrowserRouter([{
     ,
     {
       path:"CapDashboard",
-      element:<CapProtect>
+      element:
+      <SocketProvider>
+      <CapProtect>
         <CapDashBoard></CapDashBoard>
       </CapProtect>
+      </SocketProvider>
     }
   ]
 },

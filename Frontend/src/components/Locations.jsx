@@ -1,42 +1,15 @@
 
+import { useSelector } from "react-redux";
 import Location from "./Location";
 const Locations=(props)=>{
-    const addresses = [
-        {
-          main: "Marina Beach",
-          sub: "Kamarajar Salai, Triplicane, Chennai, Tamil Nadu",
-        },
-        {
-          main: "India Gate",
-          sub: "Rajpath, India Gate, New Delhi, Delhi",
-        },
-        {
-          main: "Chhatrapati Shivaji Maharaj Terminus",
-          sub: "DN Road, Fort, Mumbai, Maharashtra",
-        },
-        {
-          main: "Howrah Bridge",
-          sub: "Strand Road, Howrah, Kolkata, West Bengal",
-        },
-        {
-          main: "Charminar",
-          sub: "Charminar Rd, Char Kaman, Hyderabad, Telangana",
-        },
-        {
-          main: "Golden Temple",
-          sub: "Golden Temple Road, Atta Mandi, Amritsar, Punjab",
-        },
-      ];
-      
+    const fetch=useSelector(store=>store.fetchStatus);
     return (
-        <div onFocus={()=>{
-          console.log("i")
-        }} className=" h-full w-full pspk  overflow-y-scroll" >
+        <div className={`${" h-full w-full pspk  overflow-y-scroll"} ${fetch.fetchShim?"skeleton-box":""}`} >
             {
-                addresses.map(
+                props.predictions.suggestions.map(
                     (e,i)=>{
                         return (
-                            <Location vehi={props} obj={e} key={i}></Location>
+                            <Location setPredictions={props.setPredictions} type={props.predictions.type} dest={props.setDest} pick={props.setPick} vehi={props} obj={e} key={i}></Location>
                         )
                     }
                 )

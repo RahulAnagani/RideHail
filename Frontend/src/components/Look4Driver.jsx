@@ -3,6 +3,7 @@ import { FaLocationArrow } from "react-icons/fa6";
 import { FaWallet } from "react-icons/fa";
 
 const Look4Driver=(props)=>{{
+    
     return (
          <div className="flex flex-col w-full bg-white">
                     <div className="relative w-full h-[20] p-3">
@@ -15,10 +16,7 @@ const Look4Driver=(props)=>{{
                     </div>
                     <div className="w-full h-[10%]  flex  justify-center items-center bg-white">
                     <h1 className="text-xl font-semibold my-1">Looking for a driver</h1>
-                        <img onClick={()=>{
-                            props.wait({status:true,vehicle:props.vehicle});
-                            props.notify();
-                            }} className="object-contain w-1/3" src={`${props.vehicle}${props.vehicle==="car"?".png":".webp"}`}></img>
+                        <img className="object-contain w-1/3" src={`${props.vehicle}${props.vehicle==="Car"?".png":".webp"}`}></img>
                     </div>
                     <div className="w-full  h-[60%] bg-white">
                         <div className=" w-[100%] mb-4 h-0.5 bg-gray-200">

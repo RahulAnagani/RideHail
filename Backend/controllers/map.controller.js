@@ -39,6 +39,7 @@ module.exports.getSuggestions=async(req,res)=>{
    const {input}=req.query;
    if(!errors.isEmpty())return res.status(400).json({status:false});
    const suggestions=await getSuggestions(input);
+   // console.log(suggestions);
    if(!suggestions)return res.status(400).json({status:false});
-   else return res.status(200).json(suggestions);
+   else return res.status(200).json({takeIt:suggestions.predictions});
 }

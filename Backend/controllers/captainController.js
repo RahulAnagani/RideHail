@@ -21,7 +21,7 @@ module.exports.register=async(req,res)=>{
             if(captain.status){
                 const token=captain.captain.generateToken();
                 res.cookie("token",token);
-                res.status(201).json({status:true,token:token});
+                res.status(201).json({status:true,token:token,captain:{fullName:captain.fullName,userId:captain._id,email:captain.email,vehicle:captain.vehicle}});
             }
             else{
                 res.status(500).json({status:captain.status})
@@ -30,9 +30,9 @@ module.exports.register=async(req,res)=>{
     } 
 }
 module.exports.login=async(req,res)=>{
-    console.log("hi")
     const errors=validationResult(req);
     if(!errors.isEmpty()){
+        console.log(errors.array());
         res.status(400).json({status:false,message:"Fields ain't upto the requirements",errors:errors.array()});
     }
     else{
@@ -43,7 +43,7 @@ module.exports.login=async(req,res)=>{
                 if(await captain.verifyPass(password)){
                     const token=captain.generateToken();
                     res.cookie("token",token);
-                    res.status(200).json({status:true,token:token,captain:{fullName:captain.fullName,email:captain.email,vehicle:captain.vehicle}});
+                    res.status(200).json({status:true,token:token,captain:{fullName:captain.fullName,userId:captain._id,email:captain.email,vehicle:captain.vehicle}});
                 }
                 else{
                     res.status(400).json({status:false,message:"Wrong password"})

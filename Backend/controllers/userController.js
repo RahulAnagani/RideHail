@@ -38,7 +38,7 @@ module.exports.loginUser=async(req,res)=>{
                 if(await user.verifyPassword(password)){
                     const token=user.generateToken();
                     res.cookie("token",token)
-                    res.status(201).json({status:true,token:token,user:{fullName:user.fullName,email:user.email}});
+                    res.status(201).json({status:true,token:token,user:{fullName:user.fullName,email:user.email,userId:user._id}});
                 }
                 else{
                     res.status(400).json({status:false,message:"Password is not Correct"});

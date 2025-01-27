@@ -28,7 +28,7 @@ const RideSchema=new mongoose.Schema({
     },
     status:{
         type:String,
-        enum:["pending,accepted","completed","riding","completed","canceled"],
+        enum:["pending","accepted","completed","riding","canceled"],
         default:"pending",
     },
     duration:{
@@ -43,5 +43,10 @@ const RideSchema=new mongoose.Schema({
     orderId:{
         type:String
     },
+    otp:{
+        type:String,
+        required:true,
+        select:false
+    }
 })
 module.exports=mongoose.model("Ride",RideSchema);

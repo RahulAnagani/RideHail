@@ -1,0 +1,11 @@
+const express=require("express");
+const { body ,query} = require("express-validator");
+const rideController=require("../controllers/ride.controller");
+const { validateUser } = require("../middlewares/AAth");
+const { validateCaptain } = require("../middlewares/AAth");
+const router=express.Router();
+router.post("/create",[body('pickup').isString().isLength({min:3}),body("destination").isString().isLength({min:3}),body("vehicleType").isString().isIn(["Auto","Bike","Car"])],validateUser,rideController.createRide);
+router.get("/get-fare",[query("pickup").isString().isLength({min:4}),query('destination').isString().isLength({min:3})],rideController.getFare);
+router.post("/confirm-ride",body("rideId").isMongoId(),validateCaptain,rideController.confirmRide);
+router.post("/start-ride",body("rideId").isMongoId(),body("otp").isString().isLength({min:4,max:4}),validateCaptain,rideController.startRide);
+module.exports=router;

@@ -1,7 +1,8 @@
 import { FaMapPin } from "react-icons/fa";
 import { FaLocationArrow } from "react-icons/fa6";
 import { FaWallet } from "react-icons/fa";
-const Wait4Driver=(props)=>{{
+const Wait4Driver=(props)=>{
+    // console.log(props)
     return (
          <div className="flex flex-col w-full bg-white">
                     <div className="relative w-full h-[20] p-3">
@@ -10,12 +11,23 @@ const Wait4Driver=(props)=>{{
                         </div>
                     </div>
                     </div>
+                    <div className="w-full text-lg font-bold p-1">
+                        <h1>Waiting for Captain⏳</h1>
+                    </div>
                     <div className="w-full h-[10%]  flex  justify-between items-center bg-white">
-                        <img className="object-contain w-1/3" src={`${props.vehicle}${props.vehicle==="car"?".png":".webp"}`}></img>
-                        <div className="p-3">
-                        <h1 className="text-xl font-semibold my-1">Rahul</h1>
-                        <h1 className="text-xl font-semibold my-1">AP16TG1234</h1>
-                        <h1 className="text-md text-gray-500 font-normal my-1">Maruti suziki alto</h1>
+                    <img className="object-contain w-1/3" src={`${props.Ride?.result?.ride[0]?.vehicleType}${props.Ride?.result?.ride[0]?.vehicleType==="Car"?".png":".webp"}`}></img>
+                        <div className="p-3 flex flex-col justify-center items-center">
+                        <h1 className="text-xl font-semibold my-1">{props.Ride?.result?.ride[0].captain.fullName?.firstName}</h1>
+                        <div className="flex gap-2">
+                        <h1 className="text-md text-gray-500 font-medium my-1">{props.Ride?.result?.ride[0]?.vehicleType}</h1>
+                        <h2 className="text-md font-semibold my-1">{props.Ride?.result?.ride[0].captain.vehicle?.plate}</h2>
+                        </div>
+                        <div className="flex gap-3">
+                            <h1 className="text-md rounded border border-black p-1 font-bold text-gray-800">{props.Ride?.result?.otp[0]}</h1>
+                            <h1 className="text-md rounded border border-black p-1 font-bold text-gray-800">{props.Ride?.result?.otp[1]}</h1>
+                            <h1 className="text-md rounded border border-black p-1 font-bold text-gray-800">{props.Ride?.result?.otp[2]}</h1>
+                            <h1 className="text-md rounded border border-black p-1 font-bold text-gray-800">{props.Ride?.result?.otp[3]}</h1>
+                        </div>
                         </div>
                     </div>
                     <div className="w-full  h-[60%] bg-white">
@@ -25,23 +37,23 @@ const Wait4Driver=(props)=>{{
                             <div className="flex m-1 gap-5 justify-start items-center">
                             <FaMapPin />
                                 <div className="flex flex-col border-b-2 w-full pb-1">
-                                    <h1 className="text-l font-semibold">562/11-A</h1>
-                                    <p className="text-gray-400">Kaikondrahalli, Bengalurur, Karnataka</p>
+                                    <h1 className="text-l font-semibold">{props.Ride?.result?.ride[0]?.pickup}</h1>
+                                    <p className="text-gray-400">Pickup</p>
                                 </div>
                             </div>
         
                             <div className="flex m-1 gap-5 justify-start items-center">
                             <FaLocationArrow/>
                                 <div className="flex flex-col w-full border-b-2 pb-1">
-                                    <h1 className="text-l font-semibold">Third Wave Coffee</h1>
-                                    <p className="text-gray-400">17th Cross Rd, PWD Quaters, 1st Sector, HSR Layout, Bengaluru, Bengaluru, Karnataka</p>
+                                    <h1 className="text-l font-semibold">{props.Ride?.result?.ride[0]?.destination}</h1>
+                                    <p className="text-gray-400">Destination</p>
                                 </div>
                             </div>
         
                             <div className="flex m-1 gap-5 justify-start items-center">
                             <FaWallet />
                                 <div className="flex flex-col w-full border-b-2 pb-1">
-                                    <h1 className="text-l font-semibold">562.11</h1>
+                                    <h1 className="text-l font-semibold">{props.Ride?.result?.ride[0]?.fare}</h1>
                                     <p className="text-gray-400">Cash</p>
                                 </div>
                             </div>
@@ -52,6 +64,6 @@ const Wait4Driver=(props)=>{{
                     </div>
                 </div>
     )
-}}
+}
 
 export default Wait4Driver;

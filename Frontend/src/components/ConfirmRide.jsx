@@ -1,8 +1,12 @@
 import { FaMapPin } from "react-icons/fa";
 import { FaLocationArrow } from "react-icons/fa6";
 import { FaWallet } from "react-icons/fa";
-
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import {RideActions} from "../store/Ride"
 const ConfirmRide=(props)=>{
+    const dispatch=useDispatch();
+    const base_api=import.meta.env.VITE_API_BASE_URL;
     return (
         <div className="flex flex-col w-full bg-white">
             <div className="relative w-full h-[20] p-3">
@@ -14,7 +18,7 @@ const ConfirmRide=(props)=>{
             </div>
             <div className="w-full h-[10%]  flex  justify-center items-center bg-white">
             <h1 className="text-xl font-semibold my-1">Confirm your ride</h1>
-                <img className="object-contain w-1/3" src={`${props.vehicle}${props.vehicle==="car"?".png":".webp"}`}></img>
+                <img className="object-contain w-1/3" src={`${props.vehicle}${props.vehicle==="Car"?".png":".webp"}`}></img>
             </div>
             <div className="w-full  h-[60%] bg-white">
                 <div className=" w-[100%] mb-4 h-0.5 bg-gray-200">
@@ -23,28 +27,43 @@ const ConfirmRide=(props)=>{
                     <div className="flex m-1 gap-5 justify-start items-center">
                     <FaMapPin />
                         <div className="flex flex-col border-b-2 w-full pb-1">
-                            <h1 className="text-l font-semibold">562/11-A</h1>
-                            <p className="text-gray-400">Kaikondrahalli, Bengalurur, Karnataka</p>
+                            <h1 className="text-l font-semibold">{props.pick}</h1>
+                            <p className="text-gray-400">Pickup</p>
                         </div>
                     </div>
 
                     <div className="flex m-1 gap-5 justify-start items-center">
                     <FaLocationArrow/>
                         <div className="flex flex-col w-full border-b-2 pb-1">
-                            <h1 className="text-l font-semibold">Third Wave Coffee</h1>
-                            <p className="text-gray-400">17th Cross Rd, PWD Quaters, 1st Sector, HSR Layout, Bengaluru, Bengaluru, Karnataka</p>
+                            <h1 className="text-l font-semibold">{props.dest}</h1>
+                            <p className="text-gray-400">Destination</p>
                         </div>
                     </div>
 
                     <div className="flex m-1 gap-5 justify-start items-center">
                     <FaWallet />
                         <div className="flex flex-col w-full border-b-2 pb-1">
-                            <h1 className="text-l font-semibold">562.11</h1>
+                            <h1 className="text-l font-semibold">{props.fares[props.vehicle]}</h1>
                             <p className="text-gray-400">Cash</p>
                         </div>
                     </div>
                     <div className="flex m-3 gap-5 justify-center   items-center">
-                        <button onClick={()=>{props.look({status:true,vehicle:props.vehicle});props.confirmPanel({status:false,vehicle:props.vehicle})}} className="font-semibold text-white bg-green-400 p-2 w-[50%] active:bg-green-600 rounded">Confirm</button>
+                        <button onClick={async()=>{
+                            axios.post(`${base_api}/rides/create`,{
+                                "pickup":props.pick,
+                                "destination":props.dest,
+                                "vehicleType":props.vehicle
+                            },{headers:{Authorization:`Bearer ${localStorage.getItem("token")}`}}).then(resp=>{
+                                dispatch(RideActions.init(resp.data));
+                                props.confirmPanel({status:false,vehicle:props.vehicle})
+                                props.look({status:true,vehicle:props.vehicle});
+                                console.log(resp.data);
+                            })
+                            .catch(e=>{
+                                console.log(e);
+                            })
+                        }
+                            } className="font-semibold text-white bg-green-400 p-2 w-[50%] active:bg-green-600 rounded">Confirm</button>
                     </div>
 
                 </div>

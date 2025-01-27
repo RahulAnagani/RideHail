@@ -6,7 +6,8 @@ const UserSlice=createSlice({
         setIt:(state,action)=>{
             return {
                 fullName:action.payload.fullName,
-                email:action.payload.email
+                email:action.payload.email,
+                userId:action.payload._id
             }
         }
     }

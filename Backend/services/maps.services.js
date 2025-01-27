@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const captainModel = require('../models/captain.model');
 module.exports.getAddressCoordinates = async (address) => {
     try {
         const response = await fetch(`https://maps.gomaps.pro/maps/api/place/findplacefromtext/json?input=${encodeURIComponent(address)}&inputtype=textquery&fields=geometry&key=${process.env.API}`, {
@@ -35,6 +36,7 @@ module.exports.getDistance=async(origin,destination)=>{
         return data.rows[0].elements[0];
     }
     catch(e){
+        console.log(e);
         return null;
     }
 }
@@ -46,6 +48,25 @@ module.exports.getDistance=async(origin,destination)=>{
             return data;
         }
         catch(e){
+            console.log(e);
             return null;
         }
+    }
+
+    module.exports.getCaptains=async(lat,lng,radius,vehicleType)=>{
+        try{
+            const captains=await captainModel.find({
+                location:{
+                    $geoWithin:{
+                        $centerSphere: [ [ Number(lat), Number(lng) ], radius / 6371 ]
+                    }
+                },
+                "vehicle.type":vehicleType
+            });     
+            return captains;
+        }
+        catch(e){
+            console.log("Some error occured",e);
+        }
+        return null;
     }
