@@ -111,7 +111,8 @@ const ConfirmPop = (props) => {
                             onKeyDown={(e) => keyHandler(e, 3)} required="required" maxLength="1" type="text" className="otp-input" id="otp-input3" />
                     </div>
                             </div>
-                    <div className="flex m-3 gap-2 justify-center flex-col items-center">
+                    <div className="flex m-3 gap-2 justify-center  items-center">
+                        <button onClick={() => { props.setConfirmRidePop(false); props.setRidePop(false) }} id="rahul" className="font-semibold text-black bg-red-600 p-2 w-[50%] active:bg-red-500 rounded">Reject</button>
                         <button onClick={async() => { 
                             fetch("http://localhost:9090/rides/start-ride",{
                                 method:"POST",
@@ -142,7 +143,6 @@ const ConfirmPop = (props) => {
                             )
 
                          }} className="font-semibold text-white bg-green-400 p-2 w-[50%] active:bg-green-600 rounded">Confirm</button>
-                        <button onClick={() => { props.setConfirmRidePop(false); props.setRidePop(false) }} id="rahul" className="font-semibold text-black bg-red-600 p-2 w-[50%] active:bg-red-500 rounded">Reject</button>
                     </div>
                 </div>
             </div>

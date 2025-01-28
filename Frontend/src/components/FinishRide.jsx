@@ -6,8 +6,10 @@ import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const FinishRide=(props)=>{
     const nav=useNavigate();
+    const ride=useSelector(store=>store.Ride);
     return (
         <div className="flex flex-col w-full bg-white">
                             <div   className=" relative w-full h-[20] p-3">
@@ -46,28 +48,45 @@ const FinishRide=(props)=>{
                                     <div className="flex m-1 gap-5 justify-start items-center">
                                     <FaMapPin />
                                         <div className="flex flex-col border-b-2 w-full pb-1">
-                                            <h1 className="text-l font-semibold">562/11-A</h1>
-                                            <p className="text-gray-400">Kaikondrahalli, Bengalurur, Karnataka</p>
+                                            <h1 className="text-l font-semibold">{ride.pickup}</h1>
+                                            <p className="text-gray-400">Pickup</p>
                                         </div>
                                     </div>
                 
                                     <div className="flex m-1 gap-5 justify-start items-center">
                                     <FaLocationArrow/>
                                         <div className="flex flex-col w-full border-b-2 pb-1">
-                                            <h1 className="text-l font-semibold">Third Wave Coffee</h1>
-                                            <p className="text-gray-400">17th Cross Rd, PWD Quaters, 1st Sector, HSR Layout, Bengaluru, Bengaluru, Karnataka</p>
+                                            <h1 className="text-l font-semibold">{ride.destination}</h1>
+                                            <p className="text-gray-400">Destination</p>
                                         </div>
                                     </div>
                 
                                     <div className="flex m-1 gap-5 justify-start items-center">
                                     <FaWallet />
                                         <div className="flex flex-col w-full border-b-2 pb-1">
-                                            <h1 className="text-l font-semibold">500.45</h1>
+                                            <h1 className="text-l font-semibold">{ride.fare}</h1>
                                             <p className="text-gray-400">Cash</p>
                                         </div>
                                     </div>
                                     <div className="flex m-3 gap-4   p-3 justify-center items-center">
-                                        <button onClick={()=>{nav("/CapDashboard")}} className="p-2 font-semibold text-white bg-green-500 w-[50%] hover:bg-green-300 active:bg-green-600 rounded">End Ride</button>
+                                        <button onClick={async()=>{
+                                            await fetch("http://localhost:9090/rides/end-ride",{
+                                                method:"POST",
+                                                headers:{
+                                                    'Content-Type':"application/json",
+                                                    "Authorization":`Bearer ${localStorage.getItem("token")}`
+                                                },
+                                                body:JSON.stringify({
+                                                    rideId:ride._id
+                                                })
+                                            }).then(resp=>resp.json())
+                                            .then(data=>{
+                                                nav("/CapDashboard");
+                                            })
+                                            .catch(e=>{
+                                                console.log(e);
+                                            })
+                                        }} className="p-2 font-semibold text-white bg-green-500 w-[50%]  active:bg-green-600 rounded">End Ride</button>
                                     </div>
                 
                                 </div>

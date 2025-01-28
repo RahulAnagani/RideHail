@@ -8,6 +8,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ConfirmPop from "../components/ConfirmPop";
 import { SocketContext } from "./SocketProvider";
+import Map from "../components/Map";
     const CapDashBoard=()=>{
         const [ridePop,setRidePop]=useState(false);
         const ridePanel=useRef();
@@ -16,6 +17,7 @@ import { SocketContext } from "./SocketProvider";
         const [locationPermission,setLocationPermission]=useState(false);
         const [location,setLocation]=useState({ltd:0,lng:0});
         const [ride,setRide]=useState({});
+        console.log(ride)
         useGSAP(()=>{
             if(ridePop)
                 gsap.to(ridePanel.current,{
@@ -80,11 +82,11 @@ import { SocketContext } from "./SocketProvider";
         return (
             <div className="relative h-screen w-screen">
                 <Logo></Logo>
-                <div className="h-full w-full">
-                    <img src="map.png" className="w-full h-full object-cover" ></img>
+                <div className="absolute w-full h-full z-0">
+                    <Map destination={ride.pickCoords?[ride.pickCoords.lat,ride.pickCoords.lng]:null}></Map>
                 </div>
-                <div className="absolute bottom-0 bg-gray-300 h-1/3 w-full rounded-t-xl p-3">
-                <div className="h-[40%] flex w-full justify-around items-center overflow-hidden">
+                <div className="absolute z-40 bottom-0 bg-gray-300 h-1/3 w-full rounded-t-xl p-3">
+                <div className="h-[40%] flex w-full justify-around items-center ">
                         <div className=" w-[30%] justify-start  items-center flex h-[100%]   ">
                             <div className="user-picture">
                             <img src="Cap.jpg" className="rounded"></img>
@@ -95,13 +97,13 @@ import { SocketContext } from "./SocketProvider";
                             <h1 className="text-xl font-bold flex-wrap">{"fullName" in data?data.fullName.firstName+" "+data.fullName.lastName:""}</h1>
                             <h5 className="font-normal text-gray-500 text-sm">Basic level</h5>
                             </div>
-                            <div>
+                            <div> 
                                 <h1 className="text-xl font-bold">$320.23</h1>
                                 <h5 className="font-normal text-gray-500 text-sm">Earned</h5>
                             </div>
                         </div>
                     </div>
-                    <div className="w-[100%] h-[60%] flex  bg-black  rounded-md"> 
+                    <div className="w-[100%]  h-[60%] flex  bg-black  rounded-md"> 
                         <div className="w-1/2 flex flex-col justify-center items-center">
                         <BsClock size={30} fill="white"/>
                         <div className="flex flex-col justify-center items-center">
@@ -127,10 +129,10 @@ import { SocketContext } from "./SocketProvider";
                         </div>
                     </div>
                 </div>
-                <div ref={ridePanel} className="fixed bg-white bottom-[-100%] w-full">
+                <div ref={ridePanel} className="fixed z-40 bg-white bottom-[-100%] w-full">
                         <RidePop ride={ride} setConfirmRidePop={setConfirmRidePop} setRidePop={setRidePop}></RidePop> 
                 </div>
-                <div ref={confirmPanel} className="fixed bg-white bottom-[-200%] w-full">
+                <div ref={confirmPanel} className="fixed z-50 bg-white bottom-[-200%] w-full">
                         <ConfirmPop setConfirmRidePop={setConfirmRidePop} setRidePop={setRidePop}></ConfirmPop> 
                 </div>
             </div>

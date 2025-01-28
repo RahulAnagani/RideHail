@@ -47,6 +47,26 @@ const RideSchema=new mongoose.Schema({
         type:String,
         required:true,
         select:false
+    },
+    pickCoords:{
+        lat:{
+            type:Number,
+            required:true
+        },
+        lng:{
+            type:Number,
+            required:true,
+        }
+    },
+    destCoords:{
+        lat:{
+            type:Number,
+            required:true
+        },
+        lng:{
+            type:Number,
+            required:true,
+        }
     }
 })
 module.exports=mongoose.model("Ride",RideSchema);

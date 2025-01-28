@@ -13,7 +13,13 @@
       align-items: center;
       justify-content: center;
     }
+    .leaflet-container {
+      z-index: 1; /* Lower z-index for the map */
+    }
     
+    h1 {
+      z-index: 9999; /* Ensure the overlay text is on top */
+    }
     .otp-input {
       background-color: gray;
       width: 30px;

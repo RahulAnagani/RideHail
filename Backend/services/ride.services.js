@@ -5,18 +5,20 @@ module.exports.getFare=async(pickup,destination)=>{
     if(!pickup||!destination)return null;
     const details=await mapServices.getDistance(pickup,destination);
     if(!details||details.status!=="OK")return null;
+    const pickCoords=await mapServices.getAddressCoordinates(pickup);
+    const destCoords=await mapServices.getAddressCoordinates(destination);
     const baseFare = {
         auto: 30,
         car: 50,
         moto: 20
     };
-
+    
     const perKmRate = {
         auto: 10,
         car: 15,
         moto: 8
     };
-
+    
     const perMinuteRate = {
         auto: 2,
         car: 3,
@@ -26,17 +28,19 @@ module.exports.getFare=async(pickup,destination)=>{
         Auto: Math.round(baseFare.auto + ((details.distance.value / 1000) * perKmRate.auto) + ((details.duration.value / 60) * perMinuteRate.auto)),
         Car: Math.round(baseFare.car + ((details.distance.value / 1000) * perKmRate.car) + ((details.duration.value / 60) * perMinuteRate.car)),
         Bike: Math.round(baseFare.moto + ((details.distance.value / 1000) * perKmRate.moto) + ((details.duration.value / 60) * perMinuteRate.moto)),
-        distance:details.distance.value/1000
+        distance:details.distance.value/1000,
+        pickup:pickCoords,
+        destination:destCoords
     };
-
+    
     return fare;
 }
 const genOtp=()=>{
     const otp=crypto.randomInt(0,10000).toString();
     return otp.padStart(4,'0');
 }
-module.exports.createRide=async({user,pickup,destination,vehicleType})=>{
-    if(!user||!pickup||!destination||!vehicleType)return null;
+module.exports.createRide=async({user,pickup,destination,vehicleType,pickCoords,destCoords})=>{
+    if(!user||!pickup||!destination||!vehicleType||!pickCoords||!destCoords)return null;
     else{
         const fare=await this.getFare(pickup,destination);
         try{
@@ -49,6 +53,8 @@ module.exports.createRide=async({user,pickup,destination,vehicleType})=>{
                 fare:fare[vehicleType],
                 status:"pending",
                 otp:"PENDING",
+                pickCoords,
+                destCoords
             })
             return ride;
         }
@@ -101,6 +107,28 @@ module.exports.startRide=async(rideId,otp)=>{
                     status:"riding"
                 })
                 return ride[0];
+            }
+        }
+        catch(e){
+            return null;
+        }
+    }
+}
+module.exports.endRide=async(rideId)=>{
+    if(!rideId){
+        return null;
+    }
+    else{
+        try{
+            const ride=await RideModel.findByIdAndUpdate({_id:rideId},{status:"completed"}).populate("user");
+            if(!ride){
+                return null;
+            }
+            if(ride.status!=='riding'){
+                return null;
+            }
+            else{
+                return ride;
             }
         }
         catch(e){

@@ -19,14 +19,14 @@ import CapSignout from './Pages/CapSignout.jsx';
 import CaptainRiding from './Pages/CaptainRiding.jsx';
 import SocketProvider from './Pages/SocketProvider.jsx';
 import UserRiding from './Pages/UserRiding.jsx';
-
+import Map from './components/Map.jsx';
 const router=createBrowserRouter([{
   path:"/",
-  element:<App></App>,
+  element:<SocketProvider><App></App></SocketProvider>,
   children:[
     {
       index:true,
-      element:<Home></Home>
+      element:<Map></Map>
     },
     {
       path:"/login",
@@ -49,11 +49,10 @@ const router=createBrowserRouter([{
     },
     {
       path:"/dashboard",
-      element:<SocketProvider>
+      element:
       <AuthProtect>
         <DashBoard></DashBoard>
       </AuthProtect>
-      </SocketProvider>
     },
     {
       path:"/user-riding",
@@ -72,11 +71,10 @@ const router=createBrowserRouter([{
     {
       path:"CapDashboard",
       element:
-      <SocketProvider>
+
       <CapProtect>
         <CapDashBoard></CapDashBoard>
       </CapProtect>
-      </SocketProvider>
     }
   ]
 },

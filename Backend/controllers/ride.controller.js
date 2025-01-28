@@ -21,14 +21,14 @@ module.exports.createRide=async(req,res)=>{
     const errors=validationResult(req);
     if(!errors.isEmpty())return res.status(400).json({status:false});
     else{
-        const {pickup,destination,vehicleType}=req.body
+        const {pickup,destination,vehicleType,pickCoords,destCoords}=req.body
         const user=req.user;
         if(!user){
            return res.status(400).status({status:false,message:"User not found"});
         }
         else{
             try{
-                const ride=await rideServices.createRide({user:user._id,pickup,destination,vehicleType});
+                const ride=await rideServices.createRide({user:user._id,pickup,destination,vehicleType,pickCoords,destCoords});
                 if(!ride){
                     return res.status(400).json({status:false});
                 }
@@ -46,7 +46,7 @@ module.exports.createRide=async(req,res)=>{
 
                         const captains=await mapServices.getCaptains(coords.lat,coords.lng,2,vehicleType);
                         captains.map((e,i)=>{
-                            sendMessage(e.socketId,{rideId:ride._id,user:rider[0].user,pickup:ride.pickup,distance:ride.distance,destination:ride.destination,fare:ride.fare},"newRide");
+                            sendMessage(e.socketId,{rideId:ride._id,user:rider[0].user,pickup:ride.pickup,distance:ride.distance,destination:ride.destination,fare:ride.fare,pickCoords,destCoords},"newRide");
                         })
                     }
                     catch(e){
@@ -82,6 +82,22 @@ module.exports.startRide=async(req,res)=>{
         else{
                 res.status(200).json(ride);
                 sendMessage(ride.user.socketId,ride,"startRiding")
+        }
+    }
+}
+module.exports.endRide=async(req,res)=>{
+    const errors=validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({status:false,msg:errors.array()});
+    }
+    else{
+        const ride=await rideServices.endRide(req.body.rideId);
+        if(!ride){
+            return res.status(400).json({status:false});
+        }
+        else{
+            res.status(400).json(ride);
+            sendMessage(ride.user.socketId,{status:true},"ride-end");
         }
     }
 }

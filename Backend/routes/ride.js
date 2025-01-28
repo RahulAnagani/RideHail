@@ -8,4 +8,5 @@ router.post("/create",[body('pickup').isString().isLength({min:3}),body("destina
 router.get("/get-fare",[query("pickup").isString().isLength({min:4}),query('destination').isString().isLength({min:3})],rideController.getFare);
 router.post("/confirm-ride",body("rideId").isMongoId(),validateCaptain,rideController.confirmRide);
 router.post("/start-ride",body("rideId").isMongoId(),body("otp").isString().isLength({min:4,max:4}),validateCaptain,rideController.startRide);
+router.post("/end-ride",body("rideId").isMongoId(),validateCaptain,rideController.endRide);
 module.exports=router;

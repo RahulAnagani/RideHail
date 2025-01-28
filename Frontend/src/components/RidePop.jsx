@@ -16,7 +16,7 @@ const RidePop=(props)=>{
         preventScrollOnSwipe:true
     });
     return (
-        <div className="flex flex-col w-full bg-white">
+        <div className="flex flex-col z-50 w-full bg-white">
                     <div  {...Swiping} className=" relative w-full h-[20] p-3">
                         <div className="flex flex-col bg-white justify-center items-center">
                         <div className="w-[10%] bg-gray-200 h-1 rounded-full"> 

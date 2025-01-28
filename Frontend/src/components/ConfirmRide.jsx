@@ -4,6 +4,7 @@ import { FaWallet } from "react-icons/fa";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import {RideActions} from "../store/Ride"
+import { fetchactions } from "../store/fetchSlice";
 const ConfirmRide=(props)=>{
     const dispatch=useDispatch();
     const base_api=import.meta.env.VITE_API_BASE_URL;
@@ -49,12 +50,16 @@ const ConfirmRide=(props)=>{
                     </div>
                     <div className="flex m-3 gap-5 justify-center   items-center">
                         <button onClick={async()=>{
+                            dispatch(fetchactions.fetchStart());
                             axios.post(`${base_api}/rides/create`,{
                                 "pickup":props.pick,
                                 "destination":props.dest,
-                                "vehicleType":props.vehicle
+                                "vehicleType":props.vehicle,
+                                "pickCoords":props.fares.pickup,
+                                "destCoords":props.fares.destination
                             },{headers:{Authorization:`Bearer ${localStorage.getItem("token")}`}}).then(resp=>{
                                 dispatch(RideActions.init(resp.data));
+                                dispatch(fetchactions.fetchEnd());
                                 props.confirmPanel({status:false,vehicle:props.vehicle})
                                 props.look({status:true,vehicle:props.vehicle});
                                 console.log(resp.data);
