@@ -1,372 +1,156 @@
-# MRN-UBER Backend API Documentation
+# API Documentation
 
-## User Registration
+## User Routes
 
-**Endpoint:** `/user/register`
+### Register User
+- **URL**: `/user/register`
+- **Method**: `POST`
+- **Body Parameters**:
+  - `email` (string, required): User's email.
+  - `password` (string, required): User's password.
+  - `fullName.firstName` (string, required): User's first name.
+  - `fullName.lastName` (string, optional): User's last name.
+- **Response**:
+  - `201 Created`: Returns a token if registration is successful.
+  - `400 Bad Request`: Returns an error message if registration fails.
 
-**Method:** `POST`
+### Login User
+- **URL**: `/user/login`
+- **Method**: `POST`
+- **Body Parameters**:
+  - `email` (string, required): User's email.
+  - `password` (string, required): User's password.
+- **Response**:
+  - `200 OK`: Returns a token if login is successful.
+  - `400 Bad Request`: Returns an error message if login fails.
 
-**Description:** Registers a new user.
+### Logout User
+- **URL**: `/user/logout`
+- **Method**: `POST`
+- **Headers**:
+  - `Authorization` (string, required): Bearer token.
+- **Response**:
+  - `200 OK`: Returns a success message if logout is successful.
+  - `400 Bad Request`: Returns an error message if logout fails.
 
-**Request Body:**
-```json
-{
-  "fullName": {
-    "firstName": "string",
-    "lastName": "string"
-  },
-  "email": "string",
-  "password": "string"
-}
-```
+### Get User Profile
+- **URL**: `/user/profile`
+- **Method**: `GET`
+- **Headers**:
+  - `Authorization` (string, required): Bearer token.
+- **Response**:
+  - `200 OK`: Returns the user's profile.
+  - `400 Bad Request`: Returns an error message if fetching profile fails.
 
-**Validation:**
-- `email`: Must be a valid email address.
-- `password`: Must be at least 4 characters long.
-- `fullName.firstName`: Must be at least 4 characters long.
-- `fullName.lastName`: Optional, but if provided, must be at least 3 characters long.
+## Captain Routes
 
-**Responses:**
+### Register Captain
+- **URL**: `/captain/register`
+- **Method**: `POST`
+- **Body Parameters**:
+  - `fullName.firstName` (string, required): Captain's first name.
+  - `email` (string, required): Captain's email.
+  - `password` (string, required): Captain's password.
+  - `vehicle.color` (string, required): Vehicle color.
+  - `vehicle.plate` (string, required): Vehicle plate number.
+  - `vehicle.capacity` (number, required): Vehicle capacity.
+  - `vehicle.type` (string, required): Vehicle type (Car, Bike, Auto).
+- **Response**:
+  - `201 Created`: Returns a token if registration is successful.
+  - `400 Bad Request`: Returns an error message if registration fails.
 
-- **201 Created**
-  ```json
-  {
-    "token": "string"
-  }
-  ```
-  - Returns a JWT token for the newly registered user.
+### Login Captain
+- **URL**: `/captain/login`
+- **Method**: `POST`
+- **Body Parameters**:
+  - `email` (string, required): Captain's email.
+  - `password` (string, required): Captain's password.
+- **Response**:
+  - `200 OK`: Returns a token if login is successful.
+  - `400 Bad Request`: Returns an error message if login fails.
 
-- **400 Bad Request**
-  ```json
-  {
-    "status": false,
-    "message": "string",
-    "errors": [
-      {
-        "msg": "string",
-        "param": "string",
-        "location": "string"
-      }
-    ]
-  }
-  ```
-  - Returns validation errors or if the user already exists.
+### Logout Captain
+- **URL**: `/captain/logout`
+- **Method**: `POST`
+- **Headers**:
+  - `Authorization` (string, required): Bearer token.
+- **Response**:
+  - `200 OK`: Returns a success message if logout is successful.
+  - `400 Bad Request`: Returns an error message if logout fails.
 
-**Example Request:**
-```json
-{
-  "method": "POST",
-  "url": "http://localhost:3000/user/register",
-  "headers": {
-    "Content-Type": "application/json"
-  },
-  "body": {
-    "fullName": {
-      "firstName": "John",
-      "lastName": "Doe"
-    },
-    "email": "john.doe@example.com",
-    "password": "password123"
-  }
-}
-```
+### Get Captain Profile
+- **URL**: `/captain/getProfile`
+- **Method**: `GET`
+- **Headers**:
+  - `Authorization` (string, required): Bearer token.
+- **Response**:
+  - `200 OK`: Returns the captain's profile.
+  - `400 Bad Request`: Returns an error message if fetching profile fails.
 
-**Example Response:**
-```json
-{
-  "token": "ItIsAJsonWebToken"
-}
-```
+## Ride Routes
 
-## User Login
+### Create Ride
+- **URL**: `/rides/create`
+- **Method**: `POST`
+- **Body Parameters**:
+  - `pickup` (string, required): Pickup location.
+  - `destination` (string, required): Destination location.
+  - `vehicleType` (string, required): Vehicle type (Auto, Bike, Car).
+- **Response**:
+  - `200 OK`: Returns the created ride.
+  - `400 Bad Request`: Returns an error message if ride creation fails.
 
-**Endpoint:** `/user/login`
+### Get Fare
+- **URL**: `/rides/get-fare`
+- **Method**: `GET`
+- **Query Parameters**:
+  - `pickup` (string, required): Pickup location.
+  - `destination` (string, required): Destination location.
+- **Response**:
+  - `200 OK`: Returns the fare details.
+  - `400 Bad Request`: Returns an error message if fetching fare fails.
 
-**Method:** `POST`
+### Confirm Ride
+- **URL**: `/rides/confirm-ride`
+- **Method**: `POST`
+- **Body Parameters**:
+  - `rideId` (string, required): Ride ID.
+- **Headers**:
+  - `Authorization` (string, required): Bearer token.
+- **Response**:
+  - `200 OK`: Returns the confirmed ride.
+  - `400 Bad Request`: Returns an error message if ride confirmation fails.
 
-**Description:** Logs in an existing user.
+### Start Ride
+- **URL**: `/rides/start-ride`
+- **Method**: `POST`
+- **Body Parameters**:
+  - `rideId` (string, required): Ride ID.
+  - `otp` (string, required): OTP.
+- **Headers**:
+  - `Authorization` (string, required): Bearer token.
+- **Response**:
+  - `200 OK`: Returns the started ride.
+  - `400 Bad Request`: Returns an error message if ride start fails.
 
-**Request Body:**
-```json
-{
-  "email": "string",
-  "password": "string"
-}
-```
+### End Ride
+- **URL**: `/rides/end-ride`
+- **Method**: `POST`
+- **Body Parameters**:
+  - `rideId` (string, required): Ride ID.
+- **Headers**:
+  - `Authorization` (string, required): Bearer token.
+- **Response**:
+  - `200 OK`: Returns the ended ride.
+  - `400 Bad Request`: Returns an error message if ride end fails.
 
-**Validation:**
-- `email`: Must be a valid email address.
-- `password`: Must be at least 4 characters long.
+## Map Routes
 
-**Responses:**
-
-- **201 Created**
-  ```json
-  {
-    "status": true,
-    "token": "string"
-  }
-  ```
-  - Returns a JWT token for the logged-in user.
-
-- **400 Bad Request**
-  ```json
-  {
-    "status": false,
-    "message": "Password is not Correct"
-  }
-  ```
-  - Returns if the password is incorrect.
-
-- **401 Unauthorized**
-  ```json
-  {
-    "status": false,
-    "message": "User is not found"
-  }
-  ```
-  - Returns if the user is not found.
-
-**Example Request:**
-```json
-{
-  "method": "POST",
-  "url": "http://localhost:3000/user/login",
-  "headers": {
-    "Content-Type": "application/json"
-  },
-  "body": {
-    "email": "john.doe@example.com",
-    "password": "password123"
-  }
-}
-```
-
-**Example Response:**
-```json
-{
-  "status": true,
-  "token": "ItIsAJsonWebToken"
-}
-```
-
-## User Logout
-
-**Endpoint:** `/user/logout`
-
-**Method:** `POST`
-
-**Description:** Logs out the current user.
-
-**Responses:**
-
-- **200 OK**
-  ```json
-  {
-    "status": true,
-    "message": "User has been successfully logged out"
-  }
-  ```
-  - Returns if the user is successfully logged out.
-
-- **400 Bad Request**
-  ```json
-  {
-    "status": false,
-    "message": "No token is found"
-  }
-  ```
-  - Returns if no token is found.
-
-**Example Request:**
-```json
-{
-  "method": "POST",
-  "url": "http://localhost:3000/user/logout",
-  "headers": {
-    "Content-Type": "application/json"
-  }
-}
-```
-
-**Example Response:**
-```json
-{
-  "status": true,
-  "message": "User has been successfully logged out"
-}
-```
-
-## Get User Profile
-
-**Endpoint:** `/user/profile`
-
-**Method:** `GET`
-
-**Description:** Retrieves the profile of the logged-in user.
-
-**Responses:**
-
-- **200 OK**
-  ```json
-  {
-    "user": {
-      "fullName": {
-        "firstName": "string",
-        "lastName": "string"
-      },
-      "email": "string",
-      "socketId": "string"
-    }
-  }
-  ```
-  - Returns the user's profile information.
-
-- **400 Bad Request**
-  ```json
-  {
-    "status": false,
-    "message": "No token found in the headers and the cookies"
-  }
-  ```
-  - Returns if no token is found.
-
-- **401 Unauthorized**
-  ```json
-  {
-    "status": false,
-    "message": "Token ain't eligible for verifying"
-  }
-  ```
-  - Returns if the token is not valid.
-
-**Example Request:**
-```json
-{
-  "method": "GET",
-  "url": "http://localhost:3000/user/profile",
-  "headers": {
-    "Authorization": "Bearer ItIsAJsonWebToken"
-  }
-}
-```
-
-**Example Response:**
-```json
-{
-  "user": {
-    "fullName": {
-      "firstName": "John",
-      "lastName": "Doe"
-    },
-    "email": "john.doe@example.com",
-    "socketId": "socket123"
-  }
-}
-```
-
-
-
-## Captain Registration
-
-**Endpoint:** `/captain/register`
-
-**Method:** `POST`
-
-**Description:** Registers a new captain.
-
-**Request Body:**
-```json
-{
-  "fullName": {
-    "firstName": "string",
-    "lastName": "string"
-  },
-  "email": "string",
-  "password": "string",
-  "vehicle": {
-    "color": "string",
-    "plate": "string",
-    "capacity": 1,
-    "type": "string"
-  }
-}
-```
-
-**Validation:**
-- `fullName.firstName`: Must be at least 3 characters long.
-- `fullName.lastName`: Optional, but if provided, must be at least 3 characters long.
-- `email`: Must be a valid email address.
-- `password`: Must be at least 4 characters long.
-- `vehicle.color`: Must be at least 3 characters long.
-- `vehicle.plate`: Must be at least 5 characters long.
-- `vehicle.capacity`: Must be an integer greater than or equal to 1.
-- `vehicle.type`: Must be one of `['Car', 'Bike', 'Auto']`.
-
-**Responses:**
-
-- **201 Created**
-  ```json
-  {
-    "status": true,
-    "token": "string"
-  }
-  ```
-  - Returns a JWT token for the newly registered captain.
-
-- **400 Bad Request**
-  ```json
-  {
-    "status": false,
-    "message": "string",
-    "errors": [
-      {
-        "msg": "string",
-        "param": "string",
-        "location": "string"
-      }
-    ]
-  }
-  ```
-  - Returns validation errors or if the captain already exists.
-
-- **500 Internal Server Error**
-  ```json
-  {
-    "status": false
-  }
-  ```
-  - Returns if there is an internal server error.
-
-**Example Request:**
-```json
-{
-  "method": "POST",
-  "url": "http://localhost:3000/captain/register",
-  "headers": {
-    "Content-Type": "application/json"
-  },
-  "body": {
-    "fullName": {
-      "firstName": "Jane",
-      "lastName": "Doe"
-    },
-    "email": "jane.doe@example.com",
-    "password": "password123",
-    "vehicle": {
-      "color": "Red",
-      "plate": "ABC123",
-      "capacity": 4,
-      "type": "Car"
-    }
-  }
-}
-```
-
-**Example Response:**
-```json
-{
-  "status": true,
-  "token": "ItIsAJsonWebToken"
-}
-```
+### Get Suggestions
+- **URL**: `/maps/get-suggestions`
+- **Method**: `GET`
+- **Query Parameters**:
+  - `input` (string, required): Input string for suggestions.
+- **Response**:
+  - `200 OK`: Returns the suggestions.
+  - `400 Bad Request`: Returns an error message if fetching suggestions fails.
