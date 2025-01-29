@@ -1,14 +1,54 @@
 import { FaMapPin } from "react-icons/fa";
 import { FaLocationArrow } from "react-icons/fa6";
 import { FaWallet } from "react-icons/fa";
+import { RiArrowDownWideFill } from "react-icons/ri";
+import {useGSAP} from "@gsap/react"
+import {gsap} from "gsap"
+import { useRef, useState } from "react";
+import { BsGlobeAsiaAustralia } from "react-icons/bs";
+import { RiArrowUpWideFill } from "react-icons/ri"; 
+
 const Wait4Driver=(props)=>{
-    // console.log(props)
+    const [up,setUp]=useState(true);
+    const pk=useRef();
+    useGSAP(()=>{
+        if(up)
+        gsap.to(pk.current,{
+            bottom:"0%"
+        })
+        else{
+        gsap.to(pk.current,{
+            bottom:"-100%"
+        })
+    }
+    },[up])
     return (
-         <div className="flex flex-col w-full bg-white">
+        <div  className="relative w-full h-screen flex flex-col justify-end">
+        {
+            !up&&<>
+                <div className="bg-gray-500 flex items-center justify-center rounded-t-lg p-2">
+                <div className="w-full p-1">
+                        <h1 className=" text-lg font-bold">Waiting for Captain⏳</h1>
+                        <h1 className="text-white font-thin">Open this panel for OTP</h1>
+                    </div>
+                    <RiArrowUpWideFill className="active:bg-gray-200  rounded-full size-8 cursor-pointer"
+                                                onClick={()=>{
+                                                    setUp(true);
+                                                }}
+                                                />
+                </div>
+            </>
+        }
+         <div ref={pk} className="absolute bottom[-100%] flex flex-col w-full bg-white">
                     <div className="relative w-full h-[20] p-3">
                         <div className="flex flex-col bg-white justify-center items-center">
                         <div className="w-[10%] bg-gray-200 h-1 rounded-full"> 
                         </div>
+                        <RiArrowDownWideFill className="active:bg-gray-200  rounded-full absolute right-5 top-5 size-8 cursor-pointer"
+                                                onClick={()=>{
+                                                    setUp(false);
+                                                }}
+                                                />
                     </div>
                     </div>
                     <div className="w-full text-lg font-bold p-1">
@@ -63,6 +103,7 @@ const Wait4Driver=(props)=>{
                         </div>
                     </div>
                 </div>
+                                                </div>
     )
 }
 

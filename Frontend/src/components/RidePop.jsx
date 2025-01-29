@@ -90,7 +90,8 @@ const RidePop=(props)=>{
                                     .then(resp=>resp.json())
                                     .then(data=>{
                                         disp(RideActions.init(data));
-                                        props.setConfirmRidePop(true)
+                                        props.setPick(true);
+                                        props.setRidePop(false)
                                     }
                                 )
                                     .catch(e=>console.log(e));

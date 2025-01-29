@@ -17,6 +17,7 @@ const Map = (props) => {
     const center = props.destination 
     ? [(position[0] + props.destination[0]) / 2, (position[1] + props.destination[1]) / 2]
     : position;
+    const captain=props.captain?.ltd?[props.captain?.ltd,props.captain?.lng]:null;
   useEffect(() => {
     const fn = () => {
       if ('geolocation' in navigator) {
@@ -30,7 +31,6 @@ const Map = (props) => {
         );
       }
     };
-    // const locationInterval = setInterval(fn, 5000);
     fn();  
   }, []);
   const awesomeMarker = L.AwesomeMarkers.icon({
@@ -40,14 +40,20 @@ const Map = (props) => {
 });
 const awesomeMarkerCap = L.AwesomeMarkers.icon({
     icon: 'map-pin',
-    markerColor: 'red', 
+    markerColor: 'green', 
     prefix: 'fa', 
 
+  });
+const Rider = L.AwesomeMarkers.icon({
+    icon: 'motorcycle',
+    markerColor: 'red', 
+    prefix: 'fa', 
+    spin:true
   });
   return (
     <div className='h-screen w-screen'>
     <MapContainer center={center} zoom={zoom} style={{ width: '100%', height: '100%' }} scrollWheelZoom={true}>
-      <MapUpdater position={center} zoom={zoom} />    
+      <MapUpdater position={captain?captain:center} zoom={captain?15:zoom} />    
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Marker position={position} icon={awesomeMarker}>
         <Popup>
@@ -56,6 +62,14 @@ const awesomeMarkerCap = L.AwesomeMarkers.icon({
       </Marker>
       {props.destination&&
         <Marker position={props.destination} icon={awesomeMarkerCap}>
+        <Popup>
+          <span>destination</span>
+        </Popup>
+      </Marker>
+      }
+      {
+        captain&&
+        <Marker position={captain} icon={Rider}>
         <Popup>
           <span>destination</span>
         </Popup>

@@ -40,6 +40,9 @@ module.exports.initializeSocket=(server)=>{
                     console.log(e);
                 }
             }
+        });
+        socket.on("update-location",async(data)=>{
+            io.to(data.socketId).emit("Janasena",data.coords);
         })
     })
 }

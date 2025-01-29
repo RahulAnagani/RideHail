@@ -9,15 +9,18 @@ import gsap from "gsap";
 import ConfirmPop from "../components/ConfirmPop";
 import { SocketContext } from "./SocketProvider";
 import Map from "../components/Map";
+import Pickup from "../components/Pickup";
+import RidingMap from "../components/RidingMap";
     const CapDashBoard=()=>{
         const [ridePop,setRidePop]=useState(false);
         const ridePanel=useRef();
         const [confirmRidePop,setConfirmRidePop]=useState(false);
+        const [pickUp,setpickUp]=useState(false);
         const confirmPanel=useRef();
         const [locationPermission,setLocationPermission]=useState(false);
         const [location,setLocation]=useState({ltd:0,lng:0});
         const [ride,setRide]=useState({});
-        console.log(ride)
+        const pik=useRef();
         useGSAP(()=>{
             if(ridePop)
                 gsap.to(ridePanel.current,{
@@ -28,6 +31,16 @@ import Map from "../components/Map";
     bottom:"-100%"
 })
 },[ridePop]);
+        useGSAP(()=>{
+            if(pickUp)
+                gsap.to(pik.current,{
+            bottom:"0"
+        })
+        else
+        gsap.to(pik.current,{
+    bottom:"-100%"
+})
+},[pickUp]);
 
         useGSAP(()=>{
             if(confirmRidePop)
@@ -54,8 +67,11 @@ import Map from "../components/Map";
         if(dat&&data._id){
             dat.emit("join",{userId:data._id,userType:"CAPTAIN"});
         };
-        if(location.ltd&&location.lng)
+        if(location.ltd&&location.lng){
             dat.emit("update-captain-location",{userId:data._id,coords:{lng:location.lng,ltd:location.ltd}});
+                if(ride.user)
+                dat.emit("update-location",{socketId:ride.user?.socketId,coords:{lng:location.lng,ltd:location.ltd}})
+        }
     },[data,dat,location]);
         useEffect(()=>{
             const locationAccess=()=>{
@@ -83,7 +99,7 @@ import Map from "../components/Map";
             <div className="relative h-screen w-screen">
                 <Logo></Logo>
                 <div className="absolute w-full h-full z-0">
-                    <Map destination={ride.pickCoords?[ride.pickCoords.lat,ride.pickCoords.lng]:null}></Map>
+                    <RidingMap destination={ride.pickCoords?[ride.pickCoords.lat,ride.pickCoords.lng]:null}></RidingMap>
                 </div>
                 <div className="absolute z-40 bottom-0 bg-gray-300 h-1/3 w-full rounded-t-xl p-3">
                 <div className="h-[40%] flex w-full justify-around items-center ">
@@ -130,10 +146,13 @@ import Map from "../components/Map";
                     </div>
                 </div>
                 <div ref={ridePanel} className="fixed z-40 bg-white bottom-[-100%] w-full">
-                        <RidePop ride={ride} setConfirmRidePop={setConfirmRidePop} setRidePop={setRidePop}></RidePop> 
+                        <RidePop ride={ride} setPick={setpickUp} setRidePop={setRidePop}></RidePop> 
                 </div>
                 <div ref={confirmPanel} className="fixed z-50 bg-white bottom-[-200%] w-full">
                         <ConfirmPop setConfirmRidePop={setConfirmRidePop} setRidePop={setRidePop}></ConfirmPop> 
+                </div>
+                <div ref={pik} className="fixed z-50 bg-transparent bottom-[-200%] w-full">
+                        <Pickup setPick={setpickUp} setConfirmRidePop={setConfirmRidePop}></Pickup>
                 </div>
             </div>
         )

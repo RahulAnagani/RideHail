@@ -11,7 +11,7 @@ const FinishRide=(props)=>{
     const nav=useNavigate();
     const ride=useSelector(store=>store.Ride);
     return (
-        <div className="flex flex-col w-full bg-white">
+        <div className="flex z-50 flex-col w-full bg-white">
                             <div   className=" relative w-full h-[20] p-3">
                                 <div className="flex flex-col bg-white justify-center items-center">
                                 <div className="w-[10%] bg-gray-200 h-1 rounded-full"> 

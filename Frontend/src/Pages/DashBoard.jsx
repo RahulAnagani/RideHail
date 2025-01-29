@@ -44,7 +44,9 @@
         const wait=useRef();  
         const pik=useRef();
         const dect=useRef();
+        const pspk=useRef();
         const [suggestions,setSuggestions]=useState({type:null,suggestions:[]});
+        const [captain,setCaptain]=useState({})
         const data=useContext(SocketContext);
         useEffect(() => {
             if (data && userData.userId) {
@@ -60,11 +62,17 @@
                     notifyS();
                     nav("/user-riding");
                 }
+                const pspk=(data)=>{
+                    setCaptain(data);
+                    console.log(data);
+                }
                 data.on("riderFound", handleRiderFound);
                 data.on("startRiding",handler);
+                data.on("Janasena",pspk)
                 return () => {
                     data.off("riderFound", handleRiderFound);
                     data.off("startRiding", handler);
+                    data.off("Janasena",pspk)
                 };
             }
         }, [data, userData]);
@@ -86,6 +94,19 @@
             preventScrollOnSwipe:true,
             trackMouse:true
         });
+        useGSAP(()=>{
+            if(waitPanel.status||confirmPanel.status||vehiclePanel.status||lookPanel.status){
+                gsap.to(pspk.current,{
+                    display:"none",
+
+                })
+            }
+            else{
+                gsap.to(pspk.current,{
+                    display:"block"
+                })
+            }
+        },[waitPanel.status,confirmPanel.status,vehiclePanel.status,lookPanel.status])
         useGSAP(()=>{
             if(lookPanel.status){
                 gsap.to(look.current,{
@@ -173,10 +194,10 @@
             <div className="relative h-screen w-screen">
                 <Logo></Logo>   
                 <div className="absolute w-full h-full z-0">
-                    <Map destination={fares.destination?[fares.destination?.lat,fares.destination?.lng]:null} distance={fares.distance}></Map>
+                    <Map captain={captain} destination={fares.destination?[fares.destination?.lat,fares.destination?.lng]:null} distance={fares.distance}></Map>
                 </div>
                 <div className="w-full h-screen top-0 absoulte flex flex-col justify-end  gap-0 z-50">
-                <div {...swipeController} className={`relative w-full z-50 bg-white h-[20] pb-1  ${!panelUp?"rounded-t-3xl":""} flex flex-col`}>
+                <div {...swipeController} ref={pspk} className={`relative w-full z-50 bg-white h-[20] pb-1  ${!panelUp?"rounded-t-3xl":""} flex flex-col`}>
                     <h3 className="text-xl font-bold m-5">Find a ride</h3>
                     {panelUp?<RiArrowDownWideFill onClick={()=>
                         {
@@ -240,8 +261,8 @@
                     <div ref={look} className="z-50 fixed bg-gray-400 bottom-[-100%] w-full">
                         <Look4Driver pick={pick} dest={dest} notify={notify} lookPanel={lookPanel} vehicle={lookPanel.vehicle}></Look4Driver>
                     </div>
-                    <div ref={wait} className="z-50 fixed bg-gray-400 bottom-[-100%] w-full">
-                        <Wait4Driver Ride={rideData}  vehicle={rideData.vehicleType}></Wait4Driver>
+                    <div ref={wait} className="z-50 fixed bg-transparent bottom-[-100%] w-full">
+                        <Wait4Driver setwaitPanel={setwaitPanel} Ride={rideData}  vehicle={rideData.vehicleType}></Wait4Driver>
                     </div>
                 </div>
             </div>

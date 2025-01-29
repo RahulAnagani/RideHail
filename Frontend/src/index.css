@@ -20,6 +20,57 @@
     h1 {
       z-index: 9999; /* Ensure the overlay text is on top */
     }
+    /* Rotation animation */
+@keyframes rotate {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+.rotate-wheel {
+  animation: rotate 5s linear infinite;
+}
+
+/* Color classes for paths */
+.wheel-path-1 {
+  fill: #D8DCE1;
+}
+
+.wheel-path-2, .wheel-path-3, .wheel-path-4, .wheel-path-5 {
+  fill: #D8DCE1;
+}
+
+.wheel-path-6 {
+  fill: #00ABFF;
+}
+
+.wheel-path-7 {
+  fill: #FF4F19;
+}
+
+.wheel-path-8 {
+  fill: #D8DCE1;
+}
+
+.wheel-circle {
+  fill: #5C546A;
+}
+
+.wheel-path-9, .wheel-path-10, .wheel-path-11, .wheel-path-12, .wheel-path-13 {
+  fill: #8B8996;
+}
+
+.wheel-path-14 {
+  fill: #8B8996;
+}
+
+.wheel-path-15 {
+  fill: #5C546A;
+}
+
     .otp-input {
       background-color: gray;
       width: 30px;
