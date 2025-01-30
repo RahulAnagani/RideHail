@@ -27,6 +27,11 @@ const Map = (props) => {
           },
           (error) => {
             console.error(error);
+          },
+          {
+            enableHighAccuracy: true, // Requests the most precise location available
+            timeout: 10000, // Time to wait for a location
+            maximumAge: 0, // Prevents caching old location
           }
         );
       }

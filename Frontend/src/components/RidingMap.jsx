@@ -28,7 +28,11 @@ const RidingMap=(props)=>{
       if("geolocation" in navigator){
         navigator.geolocation.getCurrentPosition((position)=>{
           setPosition([position.coords.latitude,position.coords.longitude]);
-        },error=>console.log(error))
+        },error=>console.log(error),{
+          enableHighAccuracy: true, // Requests the most precise location available
+          timeout: 10000, // Time to wait for a location
+          maximumAge: 0, // Prevents caching old location
+        })
       }
     }
     const inter=setInterval(liveIt,5000);

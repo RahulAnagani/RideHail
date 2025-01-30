@@ -8,6 +8,8 @@ import { useRef, useState } from "react";
 import { RideActions } from "../store/Ride";
 const ConfirmPop = (props) => {
     const ride = useSelector(store => store.Ride);
+    const api=import.meta.env.VITE_API_BASE_URL;
+    console.log(api)
     const nav = useNavigate();
     const disp=useDispatch();
     const Swiping = useSwipeable({
@@ -114,7 +116,7 @@ const ConfirmPop = (props) => {
                     <div className="flex m-3 gap-2 justify-center  items-center">
                         <button onClick={() => { props.setConfirmRidePop(false); props.setRidePop(false) }} id="rahul" className="font-semibold text-black bg-red-600 p-2 w-[50%] active:bg-red-500 rounded">Reject</button>
                         <button onClick={async() => { 
-                            fetch("http://localhost:9090/rides/start-ride",{
+                            fetch(`${api}/rides/start-ride`,{
                                 method:"POST",
                                 headers:{
                                     "Content-Type":"application/json",
@@ -138,7 +140,7 @@ const ConfirmPop = (props) => {
                             .catch(e=>{
                                 console.log(e);
                                 setOtp(["","","",""])
-                                document.getElementById("opt-input0").focus;
+                                document.getElementById("opt-input0").focus();
                             }
                             )
 

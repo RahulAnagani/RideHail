@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 const FinishRide=(props)=>{
     const nav=useNavigate();
     const ride=useSelector(store=>store.Ride);
+    const api=import.meta.env.VITE_API_BASE_URL
     return (
         <div className="flex z-50 flex-col w-full bg-white">
                             <div   className=" relative w-full h-[20] p-3">
@@ -70,7 +71,7 @@ const FinishRide=(props)=>{
                                     </div>
                                     <div className="flex m-3 gap-4   p-3 justify-center items-center">
                                         <button onClick={async()=>{
-                                            await fetch("http://localhost:9090/rides/end-ride",{
+                                            await fetch(`${api}/rides/end-ride`,{
                                                 method:"POST",
                                                 headers:{
                                                     'Content-Type':"application/json",
