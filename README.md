@@ -80,7 +80,3 @@ npm run dev
 - POST `/rides/start-ride` - Start ride
 - POST `/rides/end-ride` - End ride
 - GET `/rides/get-fare` - Get fare
-
-## License
-
-MIT License
