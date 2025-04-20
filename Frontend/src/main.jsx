@@ -83,7 +83,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: '/RideHail', // Add this line to handle the base path
+    basename: '/RideHail', 
   }
 )
 
